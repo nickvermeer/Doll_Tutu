@@ -72,9 +72,9 @@ void loop()
   }
   delay(10);
  }
-  setOuterHeart(8,0,0);
-  setInnerHeart(8,0,0);
-  setJewelHeart(8,0,0);
+  setOuterHeart(10,10,10);
+  setInnerHeart(10,10,10);
+  setJewelHeart(10,10,10);
   stripOutput();
   delay(10);
   if (effect_position != -1){
@@ -84,9 +84,9 @@ void loop()
         effect_position=-1;
       }
   }
-  setOuterHeart(35,10,10);
-  setInnerHeart(35,10,10);
-  setJewelHeart(35,10,10);
+  setOuterHeart(120,120,120);
+  setInnerHeart(120,120,120);
+  setJewelHeart(120,120,120);
   stripOutput();
   if (effect_position == -1){
     effect_position=0;
@@ -99,9 +99,9 @@ void loop()
   }
   delay(50);
     for (int bright = 90; bright >= 0; bright=bright-2) {
-    heartSleepThrob3(bright,30,15,1.0,0.1,0.1);
+    heartSleepThrob3(bright,30,15,1.0,1.0,1.0);
 
-  bodiceWave2(effect_position,0,70,0.2); //bodiceWave(int effect_position,int startpos,int totalcount,float balance)
+  bodiceWave1(effect_position,0,70,0.2); //bodiceWave(int effect_position,int startpos,int totalcount,float balance)
   stripOutput();
 	if (effect_position != -1){
 	    effect_position++;
@@ -113,7 +113,7 @@ void loop()
 	delay(10);
     }
     for (int i = 0; i < 20; i++) {
-  bodiceWave2(effect_position,0,70,0.2); //bodiceWave(int effect_position,int startpos,int totalcount,float balance)
+  bodiceWave1(effect_position,0,70,0.2); //bodiceWave(int effect_position,int startpos,int totalcount,float balance)
   stripOutput();
 	if (effect_position != -1){
       effect_position++;
