@@ -56,9 +56,9 @@ void loop()
       Serial.println("Running!");
       readyval=2;
     }
-    for (int bright = 0; bright < 90; bright+=5) {
-    heartSleepThrob3(bright,30,30,1.0,0.1,0.1);
-    bodiceWave2(effect_position,0,70,0.2); //bodiceWave(int effect_position,int startpos,int totalcount,float balance)
+    for (int bright = 0; bright < 120; bright+=4) {
+    heartSleepThrob3(bright,30,30,1.0,0.9,0.9);
+    bodiceWave(effect_position,0,70,0.3); //bodiceWave(int effect_position,int startpos,int totalcount,float balance)
 
 	for (int i = 0; i < 6; i++) {
 	    strips[i].show();
@@ -99,9 +99,9 @@ void loop()
   }
   delay(50);
     for (int bright = 90; bright >= 0; bright=bright-2) {
-    heartSleepThrob3(bright,30,15,1.0,1.0,1.0);
+    heartSleepThrob3(bright,30,15,1.0,0.9,0.9);
 
-  bodiceWave0(effect_position,0,70,0.2); //bodiceWave(int effect_position,int startpos,int totalcount,float balance)
+  bodiceWave(effect_position,0,70,0.3); //bodiceWave(int effect_position,int startpos,int totalcount,float balance)
   stripOutput();
 	if (effect_position != -1){
 	    effect_position++;
@@ -113,7 +113,7 @@ void loop()
 	delay(10);
     }
     for (int i = 0; i < 20; i++) {
-  bodiceWave(effect_position,0,70,0.2); //bodiceWave(int effect_position,int startpos,int totalcount,float balance)
+  bodiceWave(effect_position,0,70,0.3); //bodiceWave(int effect_position,int startpos,int totalcount,float balance)
   stripOutput();
 	if (effect_position != -1){
       effect_position++;
