@@ -101,7 +101,7 @@ void loop()
     for (int bright = 90; bright >= 0; bright=bright-2) {
     heartSleepThrob3(bright,30,15,1.0,1.0,1.0);
 
-  bodiceWave1(effect_position,0,70,0.2); //bodiceWave(int effect_position,int startpos,int totalcount,float balance)
+  bodiceWave0(effect_position,0,70,0.2); //bodiceWave(int effect_position,int startpos,int totalcount,float balance)
   stripOutput();
 	if (effect_position != -1){
 	    effect_position++;
@@ -113,7 +113,7 @@ void loop()
 	delay(10);
     }
     for (int i = 0; i < 20; i++) {
-  bodiceWave1(effect_position,0,70,0.2); //bodiceWave(int effect_position,int startpos,int totalcount,float balance)
+  bodiceWave(effect_position,0,70,0.2); //bodiceWave(int effect_position,int startpos,int totalcount,float balance)
   stripOutput();
 	if (effect_position != -1){
       effect_position++;
