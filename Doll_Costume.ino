@@ -72,21 +72,21 @@ void loop()
   }
   delay(10);
  }
-  setOuterHeart(10,10,10);
-  setInnerHeart(10,10,10);
-  setJewelHeart(10,10,10);
+  setOuterHeart(0,0,0);
+  setInnerHeart(0,0,0);
+  setJewelHeart(0,0,0);
   stripOutput();
-  delay(10);
+  delay(50);
   if (effect_position != -1){
-      effect_position++;
+      effect_position+=5;
       effect_position %= (2 << 17);
       if(effect_position > 400){
         effect_position=-1;
       }
   }
-  setOuterHeart(120,120,120);
-  setInnerHeart(120,120,120);
-  setJewelHeart(120,120,120);
+  setOuterHeart(190,190,190);
+  setInnerHeart(190,190,190);
+  setJewelHeart(190,190,190);
   stripOutput();
   if (effect_position == -1){
     effect_position=0;
