@@ -2,10 +2,14 @@
 #define CONFIG_H
 #include "Led.h"
 #include "Point.h"
-#define BODICE_COUNT 45
+#define BODICE_COUNT 109 //45
 #define OUTERHEART_COUNT 24
 #define INNERHEART_COUNT 16
 #define JEWELHEART_COUNT 7
+#define TUTU1_COUNT 16
+#define TUTU2_COUNT 16
+#define TUTU3_COUNT 16
+#define TUTU4_COUNT 16
 
 /*uint8_t outerheart[] =
     { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
@@ -111,6 +115,7 @@ BodiceLED bodice[]={BodiceLED(Point(100,95),255,&strips[0],0),
               BodiceLED(Point(65,48),85,&strips[1],47),
               BodiceLED(Point(63,55),105,&strips[1],48),
               BodiceLED(Point(74,79),182,&strips[1],49),
-              BodiceLED(Point(77,83),196,&strips[1],50)};
+              BodiceLED(Point(77,83),196,&strips[1],50),
+};
 
 #endif //CONFIG_H
