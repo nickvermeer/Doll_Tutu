@@ -7,3 +7,7 @@ leds=data['Leds']
 for led in leds:
     print('LED(Point({},{}),{},{},{}),'.format(int(led[2]),int(led[3]),int(led[4]),int(led[0]-1),int(led[1])))
     
+for F in range(0-15):
+    print F
+
+    

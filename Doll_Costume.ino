@@ -3,6 +3,10 @@
 #include "config.h"
 #include "Led.h"
 #include "effects.h"
+#include "Sequence.h"
+Heartbeat heartbeatSeq;
+int touchAvg,touchNoise;
+int state;
 int8_t readyval;
 int effect_position;
 uint32_t tstart;
@@ -18,6 +22,9 @@ void setup()
     effect_position = -1;
     tstart=millis();
     readyval=0;
+    heartbeatSeq.request_start();
+    state=0;
+    calibTouch(15);
 }
 
 void loop()
@@ -56,6 +63,22 @@ void loop()
       Serial.println("Running!");
       readyval=2;
     }
+    heartbeatSeq.tick();
+    effect_position=((millis()%4000)/10);
+    bodiceWave(effect_position,0,70,0.3);
+    
+    if (getTouch(15)!=0){ //((millis()>30000) && (millis() < 31000)){
+      heartbeatSeq.up_color=LEDColor(30,0,0);
+      heartbeatSeq.down_color=LEDColor(30,0,0);
+      heartbeatSeq.pulse1_color=LEDColor(0,0,0);
+      heartbeatSeq.pulse2_color=LEDColor(90,90,90);
+      heartbeatSeq.rampup_time=220*1.5;
+      heartbeatSeq.rampdown_time=330*1.5;
+      heartbeatSeq.pulse1_time=10;
+      heartbeatSeq.pulse2_time=50;
+      heartbeatSeq.wait_time=220*2;
+    }
+    /*
     for (int bright = 0; bright < 120; bright+=4) {
     heartSleepThrob3(bright,30,30,1.0,0.9,0.9);
     bodiceWave(effect_position,0,70,0.3); //bodiceWave(int effect_position,int startpos,int totalcount,float balance)
@@ -76,17 +99,18 @@ void loop()
   setInnerHeart(0,0,0);
   setJewelHeart(0,0,0);
   stripOutput();
-  delay(50);
+  
   if (effect_position != -1){
-      effect_position+=5;
+      effect_position+=2;
       effect_position %= (2 << 17);
       if(effect_position > 400){
         effect_position=-1;
       }
   }
-  setOuterHeart(190,190,190);
-  setInnerHeart(190,190,190);
-  setJewelHeart(190,190,190);
+  delay(20);
+  setOuterHeart(90,90,90);
+  setInnerHeart(90,90,90);
+  setJewelHeart(90,90,90);
   stripOutput();
   if (effect_position == -1){
     effect_position=0;
@@ -123,5 +147,33 @@ void loop()
       }
   }
 	delay(10);
+    } */
+}
+
+int calibTouch(int pin){
+    touchAvg=touchRead(pin);
+    delay(4);
+    touchNoise=abs(touchAvg-touchRead(pin));
+    for (int i=0; i<1000;i=i+1){
+      int reading=touchRead(pin);
+      touchAvg=(touchAvg*.9)+(reading*.1);
+      int touchnoise_reading=abs(touchAvg-reading);
+      touchNoise=(touchNoise*.9)+(touchnoise_reading*.1);
+      delay(1);
     }
 }
+
+int getTouch (int pin){
+    int reading=touchRead(pin);
+    touchAvg=(touchAvg*.9)+(reading*.1);
+    Serial.print("Avg:");
+    Serial.println(touchAvg);
+    Serial.print("Noise:");
+    Serial.println(touchNoise);
+    if(reading > (touchAvg+100)){
+        return(1);
+    }else{
+        return(0);
+    }
+}
+

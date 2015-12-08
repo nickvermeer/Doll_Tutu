@@ -2,7 +2,7 @@
 #define CONFIG_H
 #include "Led.h"
 #include "Point.h"
-#define BODICE_COUNT 109 //45
+#define BODICE_COUNT 45
 #define OUTERHEART_COUNT 24
 #define INNERHEART_COUNT 16
 #define JEWELHEART_COUNT 7

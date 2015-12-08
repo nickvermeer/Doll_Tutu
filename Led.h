@@ -3,6 +3,22 @@
 
 #include <Adafruit_NeoPixel.h>
 #include "Point.h"
+class LEDColor {
+  public:
+  LEDColor();
+  LEDColor(int,int,int);
+  int r,g,b;
+};
+LEDColor::LEDColor(){
+  r=0;
+  g=0;
+  b=0;
+}
+LEDColor::LEDColor(int nr,int ng,int nb){
+  r=nr;
+  g=ng;
+  b=nb;
+}
 
 class LED {
   public:

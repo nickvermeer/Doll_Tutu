@@ -1,5 +1,7 @@
 #ifndef EFFECTS_H
 #define EFFECTS_H
+
+
 void setOuterHeart(int r,int g,int b){
   for (int i = 0; i < OUTERHEART_COUNT; i++) {
       outerheart[i].setClr(r,g,b);
@@ -16,6 +18,11 @@ void setJewelHeart(int r,int g,int b){
     jewelheart[i].setClr(r,g,b);
 
   }
+}
+void setHeart(int r,int g,int b){
+  setOuterHeart(r,g,b);
+  setInnerHeart(r,g,b);
+  setJewelHeart(r,g,b);
 }
 void setBodice(int r,int g,int b){
   for (int i = 0; i < BODICE_COUNT; i++) {
