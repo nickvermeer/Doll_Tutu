@@ -5,6 +5,11 @@
 #include "effects.h"
 #include "Sequence.h"
 Heartbeat heartbeatSeq;
+uint32_t lastTick;
+uint32_t lastStateChange;
+
+int touchCount;
+int touchLatch=0;
 int touchAvg,touchNoise;
 int state;
 int8_t readyval;
@@ -25,6 +30,17 @@ void setup()
     heartbeatSeq.request_start();
     state=0;
     calibTouch(15);
+    lastTick=millis();
+    lastStateChange=millis();
+    heartbeatSeq.up_color=LEDColor(30,0,0);
+    heartbeatSeq.down_color=LEDColor(30,0,0);
+    heartbeatSeq.pulse1_color=LEDColor(0,0,0);
+    heartbeatSeq.pulse2_color=LEDColor(30,30,30);
+    heartbeatSeq.rampup_time=220*1.5;
+    heartbeatSeq.rampdown_time=330*1.5;
+    heartbeatSeq.pulse1_time=10;
+    heartbeatSeq.pulse2_time=50;
+    heartbeatSeq.wait_time=220*2;
 }
 
 void loop()
@@ -63,11 +79,41 @@ void loop()
       Serial.println("Running!");
       readyval=2;
     }
-    heartbeatSeq.tick();
-    effect_position=((millis()%4000)/10);
-    bodiceWave(effect_position,0,70,0.3);
-    
-    if (getTouch(15)!=0){ //((millis()>30000) && (millis() < 31000)){
+    if(state != 1){
+      heartbeatSeq.tick();
+      effect_position=((millis()%4000)/10);
+      bodiceWave(effect_position,0,40,0.3,0.5);
+    }
+/*    if (getTouch(15)){
+      if (millis() > lastTick){
+        lastTick=millis();
+        touchCount++;
+        if (touchCount > 10)
+          touchCount=10;
+          //Serial.println("Touch");
+        }
+      }else{
+          //Serial.println("No Touch");
+          touchCount=0;
+          touchLatch=0;
+      }
+    if (state==0 && touchCount==10 && touchLatch != 1){
+        lastStateChange=millis();
+        touchLatch=1;
+        state++;
+        setHeart(0,0,0);
+        setBodice(0,0,0);
+        stripOutput();
+    }
+    if (state==1 && touchCount==10 && touchLatch !=1){
+        lastStateChange=millis();
+        state++;
+        touchLatch=1;
+    }
+    if (state==2 && touchCount==10 && touchLatch != 1){
+      state=3;
+      lastStateChange=millis();
+      touchLatch=1;
       heartbeatSeq.up_color=LEDColor(30,0,0);
       heartbeatSeq.down_color=LEDColor(30,0,0);
       heartbeatSeq.pulse1_color=LEDColor(0,0,0);
@@ -77,7 +123,7 @@ void loop()
       heartbeatSeq.pulse1_time=10;
       heartbeatSeq.pulse2_time=50;
       heartbeatSeq.wait_time=220*2;
-    }
+    }*/
     /*
     for (int bright = 0; bright < 120; bright+=4) {
     heartSleepThrob3(bright,30,30,1.0,0.9,0.9);
@@ -150,7 +196,7 @@ void loop()
     } */
 }
 
-int calibTouch(int pin){
+void calibTouch(int pin){
     touchAvg=touchRead(pin);
     delay(4);
     touchNoise=abs(touchAvg-touchRead(pin));
@@ -165,11 +211,7 @@ int calibTouch(int pin){
 
 int getTouch (int pin){
     int reading=touchRead(pin);
-    touchAvg=(touchAvg*.9)+(reading*.1);
-    Serial.print("Avg:");
-    Serial.println(touchAvg);
-    Serial.print("Noise:");
-    Serial.println(touchNoise);
+    touchAvg=(touchAvg*.99)+(reading*.01);
     if(reading > (touchAvg+100)){
         return(1);
     }else{

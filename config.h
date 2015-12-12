@@ -6,10 +6,8 @@
 #define OUTERHEART_COUNT 24
 #define INNERHEART_COUNT 16
 #define JEWELHEART_COUNT 7
-#define TUTU1_COUNT 16
-#define TUTU2_COUNT 16
-#define TUTU3_COUNT 16
-#define TUTU4_COUNT 16
+#define TUTU_COUNT 64
+
 
 /*uint8_t outerheart[] =
     { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
@@ -20,6 +18,8 @@ uint8_t innerheart[] =
 uint8_t jewelheart[] = { 40, 41, 42, 43, 44, 45, 46 };
 */
 Point heart=Point(55,9);
+
+int tutuindex[64];
 
 LED outerheart[]={LED(&strips[1],0),
                   LED(&strips[1],1),
@@ -117,5 +117,69 @@ BodiceLED bodice[]={BodiceLED(Point(100,95),255,&strips[0],0),
               BodiceLED(Point(74,79),182,&strips[1],49),
               BodiceLED(Point(77,83),196,&strips[1],50),
 };
-
+LED tutu[]={LED(&strips[2],0),
+            LED(&strips[2],1),
+            LED(&strips[2],2),
+            LED(&strips[2],3),
+            LED(&strips[2],4),
+            LED(&strips[2],5),
+            LED(&strips[2],6),
+            LED(&strips[2],7),
+            LED(&strips[2],8),
+            LED(&strips[2],9),
+            LED(&strips[2],10),
+            LED(&strips[2],11),
+            LED(&strips[2],12),
+            LED(&strips[2],13),
+            LED(&strips[2],14),
+            LED(&strips[2],15),
+            LED(&strips[3],0),
+            LED(&strips[3],1),
+            LED(&strips[3],2),
+            LED(&strips[3],3),
+            LED(&strips[3],4),
+            LED(&strips[3],5),
+            LED(&strips[3],6),
+            LED(&strips[3],7),
+            LED(&strips[3],8),
+            LED(&strips[3],9),
+            LED(&strips[3],10),
+            LED(&strips[3],11),
+            LED(&strips[3],12),
+            LED(&strips[3],13),
+            LED(&strips[3],14),
+            LED(&strips[3],15),
+            LED(&strips[4],0),
+            LED(&strips[4],1),
+            LED(&strips[4],2),
+            LED(&strips[4],3),
+            LED(&strips[4],4),
+            LED(&strips[4],5),
+            LED(&strips[4],6),
+            LED(&strips[4],7),
+            LED(&strips[4],8),
+            LED(&strips[4],9),
+            LED(&strips[4],10),
+            LED(&strips[4],11),
+            LED(&strips[4],12),
+            LED(&strips[4],13),
+            LED(&strips[4],14),
+            LED(&strips[4],15),
+            LED(&strips[5],0),
+            LED(&strips[5],1),
+            LED(&strips[5],2),
+            LED(&strips[5],3),
+            LED(&strips[5],4),
+            LED(&strips[5],5),
+            LED(&strips[5],6),
+            LED(&strips[5],7),
+            LED(&strips[5],8),
+            LED(&strips[5],9),
+            LED(&strips[5],10),
+            LED(&strips[5],11),
+            LED(&strips[5],12),
+            LED(&strips[5],13),
+            LED(&strips[5],14),
+            LED(&strips[5],15)
+  };
 #endif //CONFIG_H

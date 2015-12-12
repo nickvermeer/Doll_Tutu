@@ -117,22 +117,44 @@ void heartSleepThrob3(int bright,int maxVal,int intervalVal,float rbal,float gba
     setJewelHeart(jbright*rbal,jbright*gbal,jbright*bbal);
 
 }
-void bodiceWave(int effect_position,int startpos,int totalcount,float balance){
+void bodiceWave(int effect_position,int startpos,int totalcount,float balance,float weight){
+  if (effect_position == 0){
+    for (int i =0; i<TUTU_COUNT; i++){
+      tutuindex[i]=random(355);
+    }
+    
+  }
   for (int i = 0; i < BODICE_COUNT; i++) {
         int effect_rg = 0;
         int effect_b = 0;
         int rampup=totalcount*balance;
         int rampdown=totalcount-rampup;
-        float curpos=float(effect_position-startpos)-(float)bodice[i].delta_heart/(float)(255.0/(float)totalcount);
+        float curpos=float(effect_position-startpos)-(float)bodice[i].delta_heart/(float)(355.0/(float)totalcount);
         if (curpos >= 0.0 && curpos < rampup) {  
-          effect_rg=(255 - bodice[i].delta_heart)*(curpos/(float)rampup);
+          effect_rg=(255 - ((float)bodice[i].delta_heart*0.718))*(curpos/(float)rampup);
           effect_b=255*(curpos/(float)rampup);
         }
         if (curpos >= rampup && curpos <=totalcount ) {  
-          effect_rg=(255 - bodice[i].delta_heart)*(1.0-((float)(curpos-rampup)/(float)rampdown));
+          effect_rg=(255 - ((float)bodice[i].delta_heart*.718))*(1.0-((float)(curpos-rampup)/(float)rampdown));
           effect_b=255*(1.0-((float)(curpos-rampup)/(float)rampdown));
        }
-        bodice[i].setClr( effect_rg, effect_rg, effect_b);
+        bodice[i].setClr( effect_rg*weight, effect_rg*weight, effect_b*weight);
+  }
+  for (int i = 0; i < TUTU_COUNT; i++) {
+        int effect_rg = 0;
+        int effect_b = 0;
+        int rampup=totalcount*balance;
+        int rampdown=totalcount-rampup;
+        float curpos=float(effect_position-startpos)-(float)tutuindex[i]/(float)(355.0/(float)totalcount);
+        if (curpos >= 0.0 && curpos < rampup && tutuindex[i] > 255) {  
+          effect_rg=(255 - ((float)tutuindex[i]*0.718))*(curpos/(float)rampup);
+          effect_b=255*(curpos/(float)rampup);
+        }
+        if (curpos >= rampup && curpos <=totalcount && tutuindex[i] > 100) {  
+          effect_rg=(255 - ((float)tutuindex[i]*.718))*(1.0-((float)(curpos-rampup)/(float)rampdown));
+          effect_b=255*(1.0-((float)(curpos-rampup)/(float)rampdown));
+       }
+        tutu[i].setClr( effect_rg/2, effect_rg/2, effect_b/2);
   }
 }
 void bodiceWave2(int effect_position,int startpos,int totalcount,float balance){
