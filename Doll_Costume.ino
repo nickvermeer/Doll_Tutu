@@ -10,11 +10,12 @@ uint32_t lastStateChange;
 
 int touchCount;
 int touchLatch=0;
-int touchAvg,touchNoise;
+float touchAvg,touchNoise;
 int state;
 int8_t readyval;
 int effect_position;
 uint32_t tstart;
+uint32_t bstart;
 void setup()
 {
     readyval = 0;
@@ -26,6 +27,7 @@ void setup()
     }
     effect_position = -1;
     tstart=millis();
+    bstart=0;
     readyval=0;
     heartbeatSeq.request_start();
     state=0;
@@ -79,11 +81,57 @@ void loop()
       Serial.println("Running!");
       readyval=2;
     }
-    if(state != 1){
+    if(millis() > lastTick){
+      lastTick=millis();
+      if(getTouch(15)){
+        touchCount++;
+        if (touchCount == 10){
+          Serial.println("Touch!");
+          bstart=millis();
+          effect_position=0;
+          state=state+1;
+          Serial.print("State ");
+          Serial.println(state);
+        }else if (touchCount > 10){
+          touchCount=11;
+        }else if(touchCount > 0){
+          //Serial.println(touchCount);
+          //Serial.println(touchAvg);
+          //Serial.println(touchRead(15));
+          
+        }
+          
+      }else{
+        if(touchCount >= 10){
+          touchCount = 0;
+          Serial.println("Release");
+        }
+      }
+    }  
+    if(state >= 1 && state <= 3){
       heartbeatSeq.tick();
-      effect_position=((millis()%4000)/10);
+      if(effect_position != -1){
+        effect_position=((millis()-bstart)/10);
+        if(effect_position > 500)
+          effect_position=-1;
+      }
       bodiceWave(effect_position,0,40,0.3,0.5);
     }
+    else if (state==0 || state == 4){
+        lastStateChange=millis();
+        setHeart(0,0,0);
+        setBodice(0,0,0);
+        stripOutput();
+    }else if(state > 4){
+      heartbeatSeq.tick();
+      effect_position=((millis()-bstart)/10);
+      if(effect_position > 400)
+        bstart=millis();
+      bodiceWave(effect_position,0,40,0.3,0.5);
+    }
+    
+    
+    
 /*    if (getTouch(15)){
       if (millis() > lastTick){
         lastTick=millis();
@@ -203,15 +251,22 @@ void calibTouch(int pin){
     for (int i=0; i<1000;i=i+1){
       int reading=touchRead(pin);
       touchAvg=(touchAvg*.9)+(reading*.1);
-      int touchnoise_reading=abs(touchAvg-reading);
+      float touchnoise_reading=abs(touchAvg-reading);
       touchNoise=(touchNoise*.9)+(touchnoise_reading*.1);
+      delay(1);
+    }
+    for (int i=0; i<1000;i=i+1){
+      int reading=touchRead(pin);
+      touchAvg=(touchAvg*.995)+(reading*.005);
+      int touchnoise_reading=abs(touchAvg-reading);
+      touchNoise=(touchNoise*.995)+(touchnoise_reading*.005);
       delay(1);
     }
 }
 
 int getTouch (int pin){
     int reading=touchRead(pin);
-    touchAvg=(touchAvg*.99)+(reading*.01);
+    touchAvg=(touchAvg*.995)+(reading*.005);
     if(reading > (touchAvg+100)){
         return(1);
     }else{
